@@ -19,6 +19,8 @@ class mobileplugin_bigapp
 	public function common()
 	{
 		global $_G;
+		/* 自动登录 by Rex */
+		require_once 'synlogin/logincheck.php';
 		if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'iyz_index.php') !== false){
 			if(true === BigAppConf::$debug){
 				$_G['trace'][] = __CLASS__ . '::' . __FUNCTION__;

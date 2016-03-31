@@ -1,0 +1,69 @@
+<?
+
+if (!defined('IN_DISCUZ')) {
+	exit('Access Denied');
+}
+
+// 本应用的私钥
+define('PRIVATE_KEY', '-----BEGIN RSA PRIVATE KEY-----
+MIIEpgIBAAKCAQEAzNZCLXSNq2P5zq7JMVqES2R7AfQGN4mXBs3BaDvfoxT5Vo7s
+QE0g/4OHLapJIoBUS8RPoR275mRnB3AX52BJ+N+k+Ls71618Odwf5vs7Rnz9cBv4
+FjApYHe38GXZFqTK4MKkbk/NV0NEv3tO8XCO4+91zfGT3hOEogyYldTDpr/hqMSx
+ICmfS76o8CDf4uia99aGw/sT7fNKiaIlQ8qWhM1zMB9QgTl5kPKoTQ8+PaTGrDVv
+WqIjfqps/KhUCjuBthdwUWuH8TLf/80PAmjZ3Sj4E+XpRcUdDzVgRpm1QNIY+yaD
+6rTkqeFf4PYTP7vtzfT0lSKNmnc/0zdSnupZvQIDAQABAoIBAQCk+ixyz90KnYsl
+nEEPLwg+cL9h41jegkLRiAauHQsSHmJ0BMjjQTvCj/zgGrasww8htwsriPc9qMAS
+jYWzJSpu+DG245ZfL6tOLqzDLLWhICo/kUdPF5s7xzCuvlkKk8+TFzG4Zy3LirJk
+RrxeWXm8u7D2HgwqYS4CFoMOqj6qnZAEtZjOMhydOM5oXuQdgP0+bB/A07Ch3wpB
+CxbaH4DJChCZyVvOlVi+ysyVoofV9WLyw941llosna/oZROpthBMgBlr8ePsV4in
+Z5l9o8HftVz4k5otuYrOx0I+fzJ92wUGV9V25p6fsOicp1t7+BoZYOHZ4mblrbQo
+ZZh2NPVBAoGBAOkImifYBUw2G2jlB5JxBOYU7fEhpVRBoebkstqFqB7B9q7p9ZOV
+YlEHruueQHm8QRohk6UOqB9IIZMplBiHvrfVUdgj4e+beaidrZRvmO+NIouO7rLh
+TELcop8Rr1TUUoCFTqiFwiq4mqpuUlGu8fpiMitY10c3L9Gs5W68By/HAoGBAOEG
+QnLqMZ6Dpa1MI9+BEv1xzQutajpUoeDjm+l8TLTeLclMohE7rzydRJzxUIaeHVNr
+BBqQ8LSozNg+OC4XRpNkEWFVmfgZ1sHnNFlCC2+wXkhKYB0C1YrF7JwWGgSPgfy2
+RAz8hL3Kti29Drnd+5XAXlFyl8i3JDrnkoa1vLJbAoGBAMjN4dB9pCsE4N+lo727
+6AW/eT30yTtuhu2omroUvEcsyr302um+qwa6ATAFoPeFke/LiSeNFrBF/rCJ/pSY
+vG46wpjmarWHGvGCVeX3uCiMTH1HwEaiP43KA9PgcF4/y4v1008CW8tmYdiE0iiT
+AO7KGQMjPfafBnS+cMHYArVXAoGBAJH/drOKYYFAVwk2QnwsCb8oy+nMrQSFjrYT
+1z/JJxeeo8RclTZrLAo+25qcMyv0gIB0CaiW66W7c5TF4bt93IuavHATkx9W3HDY
+aq2S3Uqs+q8amnuYMCamvhqTeHQHDEaDl2l5mUJuuH66kEhlz2rc8hUULYjL0pTp
+VLdUSMbLAoGBAM6xbl6HUGjtbnCRqiHZVKKDJ6PX7kIFPG62TWElhwCUquRr4phM
+Daovzn1ZkiN3FYkzOhyjjFr1iWzH3G78ltobYurV/oWzIdJZ+4vAglFln+7DK1Ev
+SUFe2Ox65RByKJh/tB6V7O6xqNpopa2+gF6mLyCi6K0feRaTInymPEcg
+-----END RSA PRIVATE KEY-----');
+// 主服务器的公钥，需分发给各应用来进行加密
+define('PUBLIC_KEY', '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzNZCLXSNq2P5zq7JMVqE
+S2R7AfQGN4mXBs3BaDvfoxT5Vo7sQE0g/4OHLapJIoBUS8RPoR275mRnB3AX52BJ
++N+k+Ls71618Odwf5vs7Rnz9cBv4FjApYHe38GXZFqTK4MKkbk/NV0NEv3tO8XCO
+4+91zfGT3hOEogyYldTDpr/hqMSxICmfS76o8CDf4uia99aGw/sT7fNKiaIlQ8qW
+hM1zMB9QgTl5kPKoTQ8+PaTGrDVvWqIjfqps/KhUCjuBthdwUWuH8TLf/80PAmjZ
+3Sj4E+XpRcUdDzVgRpm1QNIY+yaD6rTkqeFf4PYTP7vtzfT0lSKNmnc/0zdSnupZ
+vQIDAQAB
+-----END PUBLIC KEY-----');
+// 主服务器的公钥，供前端JS加密使用
+define('PUBLIC_KEY_FOR_JS', 'CCD6422D748DAB63F9CEAEC9315A844B647B01F40637899706CDC1683BDFA314F9568EEC404D20FF83872DAA492280544BC44FA11DBBE66467077017E76049F8DFA4F8BB3BD7AD7C39DC1FE6FB3B467CFD701BF81630296077B7F065D916A4CAE0C2A46E4FCD574344BF7B4EF1708EE3EF75CDF193DE1384A20C9895D4C3A6BFE1A8C4B120299F4BBEA8F020DFE2E89AF7D686C3FB13EDF34A89A22543CA9684CD73301F5081397990F2A84D0F3E3DA4C6AC356F5AA2237EAA6CFCA8540A3B81B61770516B87F132DFFFCD0F0268D9DD28F813E5E945C51D0F35604699B540D218FB2683EAB4E4A9E15FE0F6133FBBEDCDF4F495228D9A773FD337529EEA59BD');
+// 通过本应用的公钥加密
+function my_encrypt($str) {
+	$public_key = openssl_pkey_get_public(PUBLIC_KEY);
+	if (!openssl_public_encrypt($str, $encrypted, $public_key)) return false;
+	return base64_encode($encrypted);
+}
+// 通过本应用的私钥解密
+function my_decrypt($str) {
+	$encrypted = base64_decode($str);
+	$private_key = openssl_pkey_get_private(PRIVATE_KEY);
+	if (!openssl_private_decrypt($encrypted, $str, $private_key)) return false;
+	return $str;
+}
+function getuid() {
+	if (!($uid = my_decrypt($_COOKIE['myauth_uid']))) {
+		setcookie('myauth_uid', '', time() - 3600);
+		return false;
+	}
+	if (!$uid) return false;
+	$uid = json_decode($uid, true);
+	$uid = intval($uid['uid']);
+	return $uid;
+}
