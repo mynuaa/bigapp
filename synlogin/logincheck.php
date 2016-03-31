@@ -6,9 +6,6 @@ if (!defined('IN_DISCUZ')) {
 
 require_once 'functions.inc.php';
 
-// ==================================================================
-// 【注意，请务必保证本段代码与synlogin.class.php中的checkLogin函数完全相同】
-// ==================================================================
 // 检查用户登录状态
 require_once libfile('function/member');
 require_once libfile('function/forum');
@@ -70,9 +67,4 @@ if (isset($_COOKIE['myauth_uid'])) {
 		$GLOBALS['_G']['member']['newprompt_num'] = unserialize($GLOBALS['_G']['member']['newprompt_num']['data']);
 		$GLOBALS['_G']['member']['category_num'] = helper_notification::get_categorynum($GLOBALS['_G']['member']['newprompt_num']);
 	}
-}
-else {
-	// 强行退出
-	uc_user_synlogout();
-	clearcookies();
 }
