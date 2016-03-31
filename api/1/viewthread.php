@@ -1,7 +1,7 @@
 <?php
 /**
  * @file viewthread.php
- * @Brief 
+ * @Brief
  * @author youzu
  * @version 1
  * @date 2015-04-03
@@ -10,13 +10,10 @@ if(!defined('IN_MOBILE_API')) {
 	exit('Access Denied');
 }
 class BigAppAPI {
-	
 	function unparsesmiles(&$message) {
 		global $_G;
-		
 		$new_replacearray = preg_replace("/[\s]+smilieid(.*)alt/", "", $_G['cache']['smilies']['replacearray']);
 		$new_replacearray = preg_replace("/=\"\"/", "", $new_replacearray);
-		
 		static $enablesmiles;
 		if($enablesmiles === null) {
 			$enablesmiles = false;
@@ -24,18 +21,15 @@ class BigAppAPI {
 				$enablesmiles = true;
 			}
 		}
-		$message = str_replace($_G["siteurl"], "", $message); 
+		$message = str_replace($_G["siteurl"], "", $message);
 		$enablesmiles && $message = preg_replace($new_replacearray, $_G['cache']['smilies']['searcharray'], $message/*, $_G['setting']['maxsmilies']*/);
-	
 		$message = str_replace('\\',"", $message);
 		$message = str_replace('</',"", $message);
 		$message = str_replace('/>',"", $message);
 		return $message;
 	}
-	
 	function common() {
 		global $_G;
-		
 		if(true === BigAppConf::$debug){
 			$_G['trace'][] = __CLASS__ . '::' . __FUNCTION__;
 		}
@@ -50,29 +44,25 @@ class BigAppAPI {
             $tmp = unserialize($_G['setting']['bigapp_settings']);
         }
         if(!isset($tmp['enable_pic_opt'])){
-            $tmp['enable_pic_opt'] = 1;   
+            $tmp['enable_pic_opt'] = 1;
         }
-		
 		//楼层跳转
 		if(isset($_REQUEST['postno'])){
 			$postno = intval($_REQUEST['postno']);
 			$postInfo = BigAppAPI::_jumpThread($postno);
 		}
-        BigAppConf::$enablePicOpt = (!!$tmp['enable_pic_opt']);	
+        BigAppConf::$enablePicOpt = (!!$tmp['enable_pic_opt']);
 	}
-
 	static $collect = array();
 	static $attachments = array();
-
 	function modifyPost2(&$postList)
 	{
 		$collect = &BigAppAPI::$collect;
 		$attachments = &BigAppAPI::$attachments;
-	
 		$idx = 0;
 		foreach ($postList as &$post){
 			if(isset($post['authorid']) && $post['authorid']){
-				$post['avatar'] = avatar($post['authorid'], 'big', true); 
+				$post['avatar'] = avatar($post['authorid'], 'big', true);
 				$variable['avatar'] = str_replace("\r", '', $variable['avatar']);
 				$variable['avatar'] = str_replace("\n", '', $variable['avatar']);
 			}else{
@@ -87,10 +77,10 @@ class BigAppAPI {
 			}else{
 				$post['message'] = mb_convert_encoding($post['message'], 'UTF-8', CHARSET);
 			}
-			$result = preg_replace_callback('/(\\r\\n)|(\\r)|(\\n)|<img.*?src="(.+?)".*?\/\>|' . 
-					'\[attach\]([0-9]+?)\[\/attach\]|(<a.*?href=".*?\.swf.*?".*?\>.*?\.swf.*?<\/a\>)|' . 
-					'(<a.*?>.*?<\/a\>)|(<a.*?\/>)|(http:\/\/|ftp:\/\/|https:\/\/){0,1}(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|' . 
-					'([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(\/[a-zA-Z0-9\&%_\.\/-;=?-~\-]*)?/', 
+			$result = preg_replace_callback('/(\\r\\n)|(\\r)|(\\n)|<img.*?src="(.+?)".*?\/\>|' .
+					'\[attach\]([0-9]+?)\[\/attach\]|(<a.*?href=".*?\.swf.*?".*?\>.*?\.swf.*?<\/a\>)|' .
+					'(<a.*?>.*?<\/a\>)|(<a.*?\/>)|(http:\/\/|ftp:\/\/|https:\/\/){0,1}(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|' .
+					'([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(\/[a-zA-Z0-9\&%_\.\/-;=?-~\-]*)?/',
 					'BigAppAPI::callback2', $post['message']);
 			$result = '__DONT_DICONV_TO_UTF8___' . $result;
 			foreach ($attachments as $attach){
@@ -116,7 +106,6 @@ class BigAppAPI {
                         $adesc = mb_convert_encoding($desc, 'UTF-8', CHARSET);
 						$atPrefix = mb_convert_encoding($atPrefix, 'UTF-8', CHARSET);
                     }
-
 					if(isset($attach['description']) && $attach['description']){
 						$addStr .= '<br />' . $atPrefix . ': ' . $adesc;
 					}
@@ -125,20 +114,17 @@ class BigAppAPI {
 				}
 			}
 			$result .= $addStr;
-			$result = str_replace('</tr><td', '<td', $result); 
+			$result = str_replace('</tr><td', '<td', $result);
 			$result = str_replace('<table', '<table border="1" width="100%"', $result);
-			
 			$post['message'] = $result;
 			if(empty($post['attachments'])){
-				$post['attachments'] = array();	
+				$post['attachments'] = array();
 			}else{
 				$post['attachments'] = array_values($post['attachments']);
 			}
 			$idx += 1;
 		}
-		
 	}
-
 	static function callback2($matches)
 	{
 		global $_G;
@@ -191,22 +177,18 @@ class BigAppAPI {
 			'handshake.gif' => "\xF0\x9F\x91\x8C",
 			'call.gif' => "\xF0\x9F\x93\x9E",
 			'sun.png' => "\xF0\x9F\x8C\x9E",
-		);	
+		);
 		if(isset($matches[4]) && !empty($matches[4])){
 /*			$out = preg_match('/smile.gif|sad.gif|biggrin.gif|cry.gif|huffy.gif|shocked.gif|shocked.png|tongue.gif|shy.gif|titter.gif|sweat.gif|' .
-					'mad.gif|lol.gif|loveliness.gif|funk.gif|curse.gif|dizzy.gif|shutup.gif|sleepy.gif|hug.gif|victory.gif|time.gif|' . 
+					'mad.gif|lol.gif|loveliness.gif|funk.gif|curse.gif|dizzy.gif|shutup.gif|sleepy.gif|hug.gif|victory.gif|time.gif|' .
 					'kiss.gif|handshake.gif|call.gif|sun.png/', $matches[4], $_matches); */
-					
 			$out = preg_match('/static\/image\/smiley/', $matches[4], $_matches);
-			
 			if(1 === $out && 1 === count($_matches)){
 				$out2 = preg_match('/\/[a-zA-Z0-9_]*.gif|.png|.jpg$/', $matches[4], $_matches);
-				
 				if(1 === $out && 1 === count($_matches)){
 					$url = $matches[4];
 					$url = str_replace('source/plugin/mobile/', '', $url);
 					$url = str_replace('source/plugin/bigapp/', '', $url);
-		
 					$ret = '<img class="smile-png" src="' . $url . '?id=bigapp:getsmile" />';
 					return $ret;
 				}
@@ -259,9 +241,8 @@ class BigAppAPI {
 		}
 		$collect = array('type' => 2, 'url' => $url, 'description' => (isset($attachments[$matches[5]]['description']) ? $attachments[$matches[5]]['description'] : ''));
 		unset($attachments[$matches[5]]);
-		return '<img src="' . $url . '"></img>';	
+		return '<img src="' . $url . '"></img>';
 	}
-
 	function getPollInfo()
 	{
 		global $_G;
@@ -336,7 +317,6 @@ class BigAppAPI {
 		unset($option);
 		return $info;
 	}
-
 	function output() {
 		global $_G, $thread;
 		if(true === BigAppConf::$debug){
@@ -349,7 +329,7 @@ class BigAppAPI {
 					$GLOBALS['postlist'][$k]['attachments'] = array();
 				}
 			}
-		}	
+		}
 		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 		$_G['thread']['ordertype'] = $GLOBALS['ordertype'];
 		if (!empty($_GET['viewpid'])) {
@@ -369,14 +349,13 @@ class BigAppAPI {
 				$comments[$k]['dateline'] = dgmdate($c['dateline'], 'u');
 			}
 			$GLOBALS['comments'][$pid] = $comments;
-		}		
-		
+		}
 		$variable = array(
 				'thread' => $_G['thread'],
 				'fid' => $_G['fid'],
-				'postlist' => array_values(bigapp_core::getvalues($GLOBALS['postlist'], array('/^\d+$/'), array('uid', 'pid', 'tid', 
-						'author', 'first', 'dbdateline', 'dateline', 'username', 'adminid', 'memberstatus', 'authorid', 'username', 
-						'groupid', 'memberstatus', 'status', 'message', 'number', 'memberstatus', 'groupid', 'attachment', 'attachments', 
+				'postlist' => array_values(bigapp_core::getvalues($GLOBALS['postlist'], array('/^\d+$/'), array('uid', 'pid', 'tid',
+						'author', 'first', 'dbdateline', 'dateline', 'username', 'adminid', 'memberstatus', 'authorid', 'username',
+						'groupid', 'memberstatus', 'status', 'message', 'number', 'memberstatus', 'groupid', 'attachment', 'attachments',
 						'attachlist', 'imagelist', 'anonymous', 'extcredits2', 'posts', 'threads', 'authortitle', 'position', 'postreview', 'isWater'))),
 				'allowpostcomment' => $_G['setting']['allowpostcomment'],
 				'comments' => $GLOBALS['comments'],
@@ -389,37 +368,30 @@ class BigAppAPI {
 				'forum_threadpay' => $_G['forum_threadpay'],
 				'cache_custominfo_postno' => $_G['cache']['custominfo']['postno'],
 				);
-				
 		//帖子举报
 		$variable['report']['enable'] = '1';
 		$variable['report']['handlekey']='miscreport'.$variable['postlist'][0]['tid'];
-
 		$language_file = 'source/language/lang_template.php';
-                
 		if(file_exists($language_file)) {
 			require_once $language_file;
 		}
 		$report_msg = explode(",", $lang['report_reason_message']);
-		
 		foreach($report_msg as $key => $msg) {
-			#$report_msg[$key] = preg_replace('/[|\'/', '', $msg);                    
+			#$report_msg[$key] = preg_replace('/[|\'/', '', $msg);
 			$msg = str_replace('[', '', $msg);
 			$msg = str_replace(']', '', $msg);
 			$msg = str_replace("'", "", $msg);
 			$report_msg[$key] = $msg;
 		}
-		
 		if(empty($report_msg[0])) {
 			$variable['report']['content'] = array();
 		} else {
 			$variable['report']['content'] = $report_msg;
 		}
-		
 		foreach ($variable['postlist'] as &$_item){
 			$_item['dateline'] = preg_replace('/<.*?\>/', '', $_item['dateline']);
 		}
 		unset($_item);
-
 		if(!empty($GLOBALS['threadsortshow'])) {
 			$optionlist = array();
 			foreach ($GLOBALS['threadsortshow']['optionlist'] AS $key => $val) {
@@ -431,14 +403,12 @@ class BigAppAPI {
 				$GLOBALS['threadsortshow']['threadsortname'] = $_G['forum']['threadsorts']['types'][$thread['sortid']];
 			}
 		}
-
 		$threadsortshow = bigapp_core::getvalues($GLOBALS['threadsortshow'], array('/^(?!typetemplate).*$/'));
 		if(!empty($threadsortshow)) {
 			$variable['threadsortshow'] = $threadsortshow;
 		}
 		foreach($variable['postlist'] as $k => &$post) {
-			
-			if (!$_G['forum']['ismoderator'] && $_G['setting']['bannedmessages'] & 1 && (($post['authorid'] && !$post['username']) || 
+			if (!$_G['forum']['ismoderator'] && $_G['setting']['bannedmessages'] & 1 && (($post['authorid'] && !$post['username']) ||
 					($_G['thread']['digest'] == 0 && ($post['groupid'] == 4 || $post['groupid'] == 5 || $post['memberstatus'] == '-1')))) {
 				$message = lang('forum/template', 'message_banned');
 			} elseif (!$_G['forum']['ismoderator'] && $post['status'] & 1) {
@@ -446,15 +416,15 @@ class BigAppAPI {
 			} elseif ($GLOBALS['needhiddenreply']) {
 				$message = lang('forum/template', 'message_ishidden_hiddenreplies');
 			} elseif ($post['first'] && $_G['forum_threadpay']) {
-				$message = lang('forum/template', 'pay_threads') . ' ' . $GLOBALS['thread']['price'] . ' ' . 
-						$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'] . 
+				$message = lang('forum/template', 'pay_threads') . ' ' . $GLOBALS['thread']['price'] . ' ' .
+						$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'] .
 						$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
 			} elseif ($_G['forum_discuzcode']['passwordlock']) {
 				$message = lang('forum/template', 'message_password_exists');
 			} else {
 				$message = '';
-			}	
-			//回帖举报		
+			}
+			//回帖举报
 			##############################
 			/*if($_G['uid'] != $variable['postlist'][$k]['authorid']) {
 					$variable['postlist'][$k]['report']['enable'] = '1';
@@ -464,7 +434,6 @@ class BigAppAPI {
 					$variable['postlist'][$k]['report']['enable'] = '0';
 			}*/
 			##############################
-
 			if ($message) {
 				$variable['postlist'][$k]['message'] = $message;
 			}
@@ -478,10 +447,9 @@ class BigAppAPI {
 			if (strpos($variable['postlist'][$k]['message'], '[/tthread]') !== FALSE) {
 				$matches = array();
 				preg_match('/\[tthread=(.+?),(.+?)\](.*?)\[\/tthread\]/', $variable['postlist'][$k]['message'], $matches);
-				$variable['postlist'][$k]['message'] = preg_replace('/\[tthread=(.+?)\](.*?)\[\/tthread\]/', lang('plugin/qqconnect', 
+				$variable['postlist'][$k]['message'] = preg_replace('/\[tthread=(.+?)\](.*?)\[\/tthread\]/', lang('plugin/qqconnect',
 						'connect_tthread_message', array('username' => $matches[1], 'nick' => $matches[2])), $variable['postlist'][$k]['message']);
-			}	
-			
+			}
 			$variable['postlist'][$k]['message'] = preg_replace("/<a\shref=\"([^\"]+?)\"\starget=\"_blank\">\[viewimg\]<\/a>/is", "<img src=\"\\1\" />", $variable['postlist'][$k]['message']);
 			$variable['postlist'][$k]['message'] = BigAppAPI::_findimg($variable['postlist'][$k]['message']);
 			$variable['postlist'][$k]['message'] = str_replace('!post_hide_reply_hidden!', lang('plugin/bigapp', 'post_hide_reply_hide'), $variable['postlist'][$k]['message']);
@@ -509,7 +477,6 @@ class BigAppAPI {
 			$variable['postlist'][$k]['message'] = preg_replace('/(&nbsp;){2,}/', '', $variable['postlist'][$k]['message']);
 			$variable['postlist'][$k]['dateline'] = strip_tags($post['dateline']);
 			$variable['postlist'][$k]['groupiconid'] = bigapp_core::usergroupIconId($post['groupid']);
-			
 			if($post['first']){
 				$post['recommends'] = $_G['thread']['recommends'];
 				$post['recommend_add'] = $_G['thread']['recommend_add'];
@@ -536,7 +503,7 @@ class BigAppAPI {
 				if(isset($matches[1])){
 					$num = $matches[1];
 				}
-				if($num >= 3.1 && !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && 
+				if($num >= 3.1 && !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies &&
 						$_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])){
 					$post['enable_support'] = 1;
 					$post['click2login'] = 0;
@@ -564,13 +531,11 @@ class BigAppAPI {
 			}
 		}
 		unset($post);
-
 		foreach($GLOBALS['aimgs'] as $pid => $aids) {
 			foreach($aids as $aid) {
 				$variable['imagelist'][] = $GLOBALS['postlist'][$pid]['attachments'][$aid]['url'].$GLOBALS['postlist'][$pid]['attachments'][$aid]['attachment'];
 			}
 		}
-
 		$variable['special_poll'] = BigAppAPI::getPollInfo();
 		if(!empty($GLOBALS['rewardprice'])) {
 			$variable['special_reward']['rewardprice'] = $GLOBALS['rewardprice'].' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][2]]['title'];
@@ -613,9 +578,8 @@ class BigAppAPI {
 					$variable['special_activity']['status'] = 'complete';
 				}
 				$variable['special_activity']['button'] = 'join';
-			}	
+			}
 		}
-
 		$variable['forum']['password'] = $variable['forum']['password'] ? '1' : '0';
 		BigAppAPI::modifyPost2($variable['postlist']);
 		if(isset($variable['thread']['tid'])){
@@ -627,11 +591,9 @@ class BigAppAPI {
 		$variable['page'] = isset($_G['page']) ? $_G['page'] : "1" ;
 		bigapp_core::result(bigapp_core::variable($variable));
 	}
-		
 	function _findimg($string) {
 		return preg_replace('/(<img src=\")(.+?)(\".*?\>)/ise', "BigAppAPI::_parseimg('\\1', '\\2', '\\3')", $string);
 	}
-
 	function _parseimg($before, $img, $after) {
 		$before = stripslashes($before);
 		$after = stripslashes($after);
@@ -641,7 +603,6 @@ class BigAppAPI {
 		}
 		return $before . $img . $after;
 	}
-	
 	function _jumpThread($postno){
 		global $_G;
 		$ptid = !empty($_GET['tid']) ? intval($_GET['tid']) : 0;
@@ -688,7 +649,5 @@ class BigAppAPI {
 		$_G['page'] = $ret['page'] = $page;
 		return $ret;
 	}
-	
 }
-
 ?>
