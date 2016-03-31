@@ -10,7 +10,7 @@ require_once 'functions.inc.php';
 require_once libfile('function/member');
 require_once libfile('function/forum');
 loaducenter();
-if (isset($_COOKIE['myauth_uid'])) {
+if (isset($_COOKIE['myauth_uid']) && !getglobal('auth', 'cookie')) {
 	// 解密uid
 	$uid = getuid();
 	// 尝试在discuz中通过uid获取用户信息
