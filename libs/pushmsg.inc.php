@@ -18,6 +18,11 @@ class PushMsg{
 
 	public static function sendMessage($uid, $title, $content, $msgType, $extra = null, $mask = 3, $jpushAk = null, $jpushSk = null)
 	{
+		// ---------------
+		// 这一段有能力再改吧
+		// ---------------
+		return true;
+		// ---------------
 		global $_G;
 		$tmp = Utils::readLocalAkSk2();
 		if(!isset($tmp['app_key']) || !isset($tmp['app_secret'])){

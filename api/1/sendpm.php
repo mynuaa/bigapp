@@ -93,10 +93,6 @@ class BigAppAPI {
 					$touid = $tmp['uid'];
 					$touser = $tmp['username'];
 				}
-				/*
-
-				// 这是推送有关的内容，有时间再改
-
 				if(!is_null($uid) && !is_null($touid) && !is_null($user) && !is_null($touser) && $uid != $touid){
 					if(function_exists('iconv')){
 						$user = iconv(CHARSET, 'UTF-8//ignore', $user);
@@ -116,7 +112,6 @@ class BigAppAPI {
 					}
 					runlog('bigapp', "[mobile]try to send message notice [ uid: $uid, touid: $touid, user: $user, touser: $touser, result: $result ].");
 				}
-				*/
 			}
 		}
 		bigapp_core::result(bigapp_core::variable($variable));
