@@ -47,28 +47,28 @@ vQIDAQAB
 // 主服务器的公钥，供前端JS加密使用
 define('PUBLIC_KEY_FOR_JS', 'CCD6422D748DAB63F9CEAEC9315A844B647B01F40637899706CDC1683BDFA314F9568EEC404D20FF83872DAA492280544BC44FA11DBBE66467077017E76049F8DFA4F8BB3BD7AD7C39DC1FE6FB3B467CFD701BF81630296077B7F065D916A4CAE0C2A46E4FCD574344BF7B4EF1708EE3EF75CDF193DE1384A20C9895D4C3A6BFE1A8C4B120299F4BBEA8F020DFE2E89AF7D686C3FB13EDF34A89A22543CA9684CD73301F5081397990F2A84D0F3E3DA4C6AC356F5AA2237EAA6CFCA8540A3B81B61770516B87F132DFFFCD0F0268D9DD28F813E5E945C51D0F35604699B540D218FB2683EAB4E4A9E15FE0F6133FBBEDCDF4F495228D9A773FD337529EEA59BD');
 
-// 通过本应用的公钥加密
-function my_encrypt($str) {
-	$public_key = openssl_pkey_get_public(PUBLIC_KEY);
-	if (!openssl_public_encrypt($str, $encrypted, $public_key)) return false;
-	return base64_encode($encrypted);
-}
-// 通过本应用的私钥解密
-function my_decrypt($str) {
-	$encrypted = base64_decode($str);
-	$private_key = openssl_pkey_get_private(PRIVATE_KEY);
-	if (!openssl_private_decrypt($encrypted, $str, $private_key)) return false;
-	return $str;
-}
-function getuid() {
-	if (!($uid = my_decrypt($_COOKIE['myauth_uid']))) {
-		setcookie('myauth_uid', '', time() - 3600);
-		return false;
-	}
-	if (!$uid) return false;
-	$uid = json_decode($uid, true);
-	$uid = intval($uid['uid']);
-	return $uid;
 }
 
+if (!function_exists('my_encrypt')) {
+	function my_encrypt($str) {
+		$public_key = openssl_pkey_get_public(PUBLIC_KEY);
+		if (!openssl_public_encrypt($str, $encrypted, $public_key)) return false;
+		return base64_encode($encrypted);
+	}
+	function my_decrypt($str) {
+		$encrypted = base64_decode($str);
+		$private_key = openssl_pkey_get_private(PRIVATE_KEY);
+		if (!openssl_private_decrypt($encrypted, $str, $private_key)) return false;
+		return $str;
+	}
+	function getuid() {
+		if (!($uid = my_decrypt($_COOKIE['myauth_uid']))) {
+			setcookie('myauth_uid', '', time() - 3600);
+			return false;
+		}
+		if (!$uid) return false;
+		$uid = json_decode($uid, true);
+		$uid = intval($uid['uid']);
+		return $uid;
+	}
 }
