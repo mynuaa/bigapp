@@ -4,7 +4,7 @@ if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-// require_once 'functions.inc.php';
+require_once '../../synlogin/functions.inc.php';
 
 // 检查用户登录状态
 require_once libfile('function/member');
