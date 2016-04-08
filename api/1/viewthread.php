@@ -390,6 +390,7 @@ class BigAppAPI {
 		}
 		foreach ($variable['postlist'] as &$_item){
 			$_item['dateline'] = preg_replace('/<.*?\>/', '', $_item['dateline']);
+			$_item['position'] = $_item['number'];
 		}
 		unset($_item);
 		if(!empty($GLOBALS['threadsortshow'])) {
