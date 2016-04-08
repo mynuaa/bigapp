@@ -670,6 +670,7 @@ class BigAppAPI {
 				unset($post['isWater']);
 				unset($post['postreview']);
 			}
+			$post['position'] = $post['number'];
 		}
 		unset($post);
 
