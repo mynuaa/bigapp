@@ -33,6 +33,7 @@ class mobile_api {
 			'perpage' => $GLOBALS['perpage'],
 			'page' => intval($GLOBALS['page']),
 		];
+		$variable['list'] = array_values($variable['list']);
 		mobile_core::result(mobile_core::variable($variable));
 	}
 }
