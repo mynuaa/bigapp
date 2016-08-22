@@ -35,7 +35,6 @@ class mobile_api {
 				unset($list[$key]['icon']);
 			}
 		}
-		
 		if(!isset($_GET['page']) || !is_numeric($_GET['page']) || $_GET['page'] <= 0){
 			$_GET['page'] = 1;
 		}
