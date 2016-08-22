@@ -18,10 +18,12 @@ if(!isset($_config)){
 define ('BIGAPP_CHARSET', $_config['output']['charset']);
 require_once dirname(__FILE__) . '/bigapp.class.php';
 
-$modules = array('forumnav', 'forumnav2', 'editpost', 'deletepm', 'deletepl', 'mythread2', 'delfav', 'login3body', 'newuser', 
-		'captcha', 'checknewpm', 'myhome','myportal','secquestion', 'checkpost', 'forumupload', 'postsupport', 'search', 'searchuser', 
-		'searchforum', 'threadrecommend2', 'newfriend', 'findfriend', 'addfriend', 'auditfriend', 'removefriend','plugcfg', 'report', 
-		'platform_login', 'thrdtype', 'smilies', 'checkin', 'indexthread','favarticle','myfavarticle', 'indexcfg','contentthread', 'getaksk','modpass','viewinfo', 'activityclient', 'activityapplylist', 'viewratings','rate','ratepost','comment','commentmore','commentpost','commentnotice', 'removepost', 'removethread');
+$modules = array('forumnav', 'forumnav2', 'editpost', 'deletepm', 'deletepl', 'mythread2', 'delfav', 'login3body', 'newuser', 'notify',
+		'captcha', 'checknewpm', 'myhome', 'myportal', 'secquestion', 'checkpost', 'forumupload', 'postsupport', 'search', 'searchuser',
+		'searchforum', 'threadrecommend2', 'newfriend', 'findfriend', 'addfriend', 'auditfriend', 'removefriend', 'plugcfg', 'report',
+		'platform_login', 'thrdtype', 'smilies', 'checkin', 'indexthread', 'favarticle', 'myfavarticle', 'indexcfg', 'contentthread',
+		'getaksk', 'modpass', 'viewinfo', 'activityclient', 'activityapplylist', 'viewratings', 'rate', 'ratepost', 'comment', 'commentmore',
+		'commentpost', 'commentnotice', 'removepost', 'removethread');
 
 $defaultversions = array(
 	'forumnav' => 4,
@@ -41,9 +43,9 @@ $defaultversions = array(
 	'search' => 4,
 	'searchuser' => 4,
 	'searchforum' => 4,
-	'threadrecommend2' => 4, 
-	'plugcfg' => 4, 
-	'thrdtype' => 4, 
+	'threadrecommend2' => 4,
+	'plugcfg' => 4,
+	'thrdtype' => 4,
 	'getaksk' => 4,
     'getarticle' => 4,
     'activityclient' => 4,

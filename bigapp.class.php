@@ -28,7 +28,7 @@ class mobileplugin_bigapp
 			$_G['pluginrunlist'][] = 'bigapp';
 			$this->_disableSecCode();
 			if(true === $this->_requireAPI('common')){
-				BigAppAPI::common();	
+				BigAppAPI::common();
 			}
 		}
 	}
@@ -41,7 +41,7 @@ class mobileplugin_bigapp
 				$_G['trace'][] = __CLASS__ . '::' . __FUNCTION__;
 			}
 			if(true === $this->_requireAPI('output')){
-				BigAppAPI::output();		
+				BigAppAPI::output();
 			}
 		}
 	}
