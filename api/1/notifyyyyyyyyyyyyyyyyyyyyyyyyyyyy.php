@@ -1,6 +1,9 @@
 <?php
+
+// TODO: delete
+
 /**
- * @file mynotelist.php
+ * @file notify.php
  * @Brief user notifications
  * @author Rex Zeng
  * @version 1
