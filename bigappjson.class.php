@@ -41,7 +41,7 @@ class BIGAPPJSON {
 					$var = '';
 				}
 				if(function_exists('json_encode')) {
-					return json_encode($var);
+					return json_encode($var, JSON_UNESCAPED_UNICODE);
 				}
 				$ascii = '';
 				$strlen_var = strlen($var);
