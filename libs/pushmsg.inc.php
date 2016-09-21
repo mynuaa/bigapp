@@ -7,8 +7,9 @@ require_once dirname(__FILE__) . '/bksvr.inc.php';
 class PushMsg{
 	protected static function getAppInfo($ak, $sk)
 	{
-		$obj = new BkSvr($ak, $sk, 30);
-		$appInfo = $obj->getInfo(BigAppConf::$appInfoUrl, array('method' => 'get_basic'));
+		// $obj = new BkSvr($ak, $sk, 30);
+		// $appInfo = $obj->getInfo(BigAppConf::$appInfoUrl, array('method' => 'get_basic'));
+		$appInfo = array('app_id' => '0');
 		if(!is_array($appInfo)){
         	runlog('bigapp', "use remote ak sk to get app info failed, give up [ ak: $ak, sk: $sk ]");
 			return false;

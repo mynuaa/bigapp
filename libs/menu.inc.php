@@ -113,29 +113,12 @@ if(!function_exists('curl_init')){
 if(!function_exists('iconv') && !function_exists('mb_convert_encoding')){
     showmessage(lang('plugin/bigapp', 'iconv_mb_needed'), '', array(), array('alert_error')); 
 }
-//if(!class_exists('ZipArchive', false)){
-//    showmessage(lang('plugin/bigapp', 'zip_class_missing'), '', array(), array('alert_error'));
-//}
 $ak = $sk = $appInfo = null;
 $aksk = BigappEnv::getAkSk();
 if ($aksk!==false && isset($aksk['ak']) &&  isset($aksk["sk"])) {
     $ak = $aksk["ak"];
     $sk = $aksk["sk"];
     $appInfo = BigappEnv::getAppInfoFromBigstation();
-    
-    ///////////////////////////////////////////////////////////////////////
-    // 原代码逻辑：从bksvrapi获取appinfo
-    /*
-    $obj = new BkSvr($ak, $sk, 30);
-    $appInfo = $obj->getInfo(BigAppConf::$appInfoUrl, array('method' => 'get_basic'));
-    if(!is_array($appInfo)){
-        runlog('bigapp', "use remote ak sk to get app info failed, give up [ ak: $ak, sk: $sk ]");
-        showmessage(lang('plugin/bigapp', 'get_ak_sk_fail'), '', array(), array('alert' => 'error'));
-    }
-    //runlog('bigapp', "get ak sk and app info succ [ ak: $ak, sk: $sk, appid: " . $appInfo['app_id'] . "]");
-    */
-    ///////////////////////////////////////////////////////////////////////
-
     //add for plugin upgrading
     if(isset($appInfo['remind']) && (1 == $appInfo['remind'] || 2 == $appInfo['remind'])){ 
         $msg = Utils::diconv('UTF-8', CHARSET, $appInfo['remind_message']);

@@ -40,8 +40,9 @@ if(isset($appInfo['remind']) && (1 == $appInfo['remind'] || 2 == $appInfo['remin
 }
 
 if(!empty($sk) && !empty($ak)){
-	$obj = new BkSvr($ak, $sk, 30);
-	$appInfo = $obj->getInfo(BigAppConf::$appInfoUrl, array('method' => 'get_basic'));
+	// $obj = new BkSvr($ak, $sk, 30);
+	// $appInfo = $obj->getInfo(BigAppConf::$appInfoUrl, array('method' => 'get_basic'));
+	$appInfo = array('app_id' => '0');
     $shareSettingInfo = $obj->getInfo(BigAppConf::$shareUrl, array('app_id' => $appInfo['app_id']), false);
 
 	if(!is_array($appInfo)){

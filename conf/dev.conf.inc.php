@@ -15,7 +15,7 @@ class BigAppConf
 	public static $showfileUrl = 'http://mobfile.youzu.com/show';
 	public static $ucRegUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=uc&controller=ucregister&method=regist';
 	//public static $ucRegUrl = 'http://uc.youzu.com/ucregister/regist';
-        public static $appInfoUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=api&controller=app&method=get_basic';
+    //public static $appInfoUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=api&controller=app&method=get_basic';
 	//public static $appInfoUrl = 'http://app.youzu.com/app/get_basic';
 	public static $accountSetUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=api&controller=settings&method=set';
 	public static $accountGetUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=api&controller=settings&method=get';
