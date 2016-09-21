@@ -17,7 +17,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/libs/portalcfg.inc.php';
 $discuz = C::app();
 $discuz->init();
 
-
 $config = array(
     'display_style' => '0',
 	'iyzversion'=>BIGAPP_PLUGIN_VERSION,
@@ -431,7 +430,8 @@ if(!empty($setting)){
 }
 
 $config['portalconfig'] = getPortalConfigure($setting);
-$config['push_enabled'] = intval(getPushStat());
+// $config['push_enabled'] = intval(getPushStat());
+$config['push_enabled'] = 1;
 
 $ret = array(
     'error_code' => 0,
