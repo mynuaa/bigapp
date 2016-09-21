@@ -20,9 +20,9 @@ if(BIGAPP_DEV){
 	public static $internalFileSvr = 'http://mobfile.youzu.com/upload'; //内部文件服务器地址
 	public static $showfileUrl = 'http://mobfile.youzu.com/show';
 	//public static $ucRegUrl = 'http://192.168.180.23:8080/stub/register.php';
-	public static $ucRegUrl = 'http://uc.youzu.com/ucregister/regist';
+	//public static $ucRegUrl = 'http://uc.youzu.com/ucregister/regist';
     //public static $appInfoUrl = 'http://192.168.180.23:8080/stub/appinfo.php';
-	// public static $appInfoUrl = 'http://app.youzu.com/app/get_basic';
+	//public static $appInfoUrl = 'http://app.youzu.com/app/get_basic';
 	public static $accountSetUrl = 'http://app.youzu.com/settings/set';
 	public static $accountGetUrl = 'http://app.youzu.com/settings/get';
 	public static $taskCreateUrl = 'http://app.youzu.com/app/create';

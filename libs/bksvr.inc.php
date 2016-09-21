@@ -142,6 +142,7 @@ class BkSvr
 	}
 	protected function _curlInfo($url, $postData = null)
 	{
+		runlog('bigapp', $url . ' ' . $postData);
         $data = "";
         $urlarr = array($url);
 		$domres = LocalDNS::getDomainUrls($url);

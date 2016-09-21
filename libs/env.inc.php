@@ -64,21 +64,22 @@ class BigappEnv
     public static function getAppInfoFromBigstation()
     {/*{{{*/
         if (!self::$_appInfo) {
-			$apiurl  = self::getApiUrl();
-			$akskmd5 = self::getAkSkMd5();
-			if ($akskmd5!="") {
-				$url = BigAppConf::$mcapis["checkaksk"];
-				$aksk = self::getAkSk();
-				$params = array (
-					"apiurl" => $apiurl,
-					"aksk" => $akskmd5,
-				);
-				$obj = new BkSvr($aksk["ak"], $aksk["sk"], 30);
-				$ret = $obj->getInfo($url, $params, false);
-				if (false !== $ret && isset($ret["data"])) {
-					self::$_appInfo = $ret["data"];
-				}
-			}
+			// $apiurl  = self::getApiUrl();
+			// $akskmd5 = self::getAkSkMd5();
+			// if ($akskmd5!="") {
+				// $url = BigAppConf::$mcapis["checkaksk"];
+				// $aksk = self::getAkSk();
+				// $params = array (
+				// 	"apiurl" => $apiurl,
+				// 	"aksk" => $akskmd5,
+				// );
+				// $obj = new BkSvr($aksk["ak"], $aksk["sk"], 30);
+				// $ret = $obj->getInfo($url, $params, false);
+                // $ret = array();
+				// if (false !== $ret && isset($ret["data"])) {
+				// 	self::$_appInfo = $ret["data"];
+				// }
+			// }
         }
         return self::$_appInfo;
     }/*}}}*/
@@ -86,17 +87,17 @@ class BigappEnv
     // remote verify after save aksk
     public static function remoteVerifyAfterSaveAksk()
     {/*{{{*/
-        $aksk = self::getAkSk();
-        $params = array (
-            "api_url"   => self::getApiUrl(),
-            "site_type" => "discuz",
-        );
-        $obj = new BkSvr($aksk["ak"], $aksk["sk"], 30);
-        $url = BigAppConf::$mcapis["autoverify"];
-		$ret = $obj->getInfo($url, $params, false);
-		if (false !== $ret && isset($ret["data"])) {
-			return $ret["data"]["check_status"];
-		}
+        // $aksk = self::getAkSk();
+        // $params = array (
+        //     "api_url"   => self::getApiUrl(),
+        //     "site_type" => "discuz",
+        // );
+        // $obj = new BkSvr($aksk["ak"], $aksk["sk"], 30);
+        // $url = BigAppConf::$mcapis["autoverify"];
+		// $ret = $obj->getInfo($url, $params, false);
+		// if (false !== $ret && isset($ret["data"])) {
+		// 	return $ret["data"]["check_status"];
+		// }
         return 0;
     }/*}}}*/
     

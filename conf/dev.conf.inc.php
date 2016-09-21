@@ -13,7 +13,7 @@ class BigAppConf
 	public static $myHomeUrl = 'plugin.php?id=bigapp:homeapi';//自定义主页
 	public static $internalFileSvr = 'http://mobfile.youzu.com/upload'; //内部文件服务器地址
 	public static $showfileUrl = 'http://mobfile.youzu.com/show';
-	public static $ucRegUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=uc&controller=ucregister&method=regist';
+	//public static $ucRegUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=uc&controller=ucregister&method=regist';
 	//public static $ucRegUrl = 'http://uc.youzu.com/ucregister/regist';
     //public static $appInfoUrl = 'http://192.168.180.93:8080/product/ui/http/index.php?module=api&controller=app&method=get_basic';
 	//public static $appInfoUrl = 'http://app.youzu.com/app/get_basic';
