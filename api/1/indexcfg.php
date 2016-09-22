@@ -45,9 +45,13 @@ for($i = 1; $i<=$max_button_num; $i++) {
 		"id" => $succRet['id'],
 		"button_type" => $succRet['button_type'],
 		"button_name" => $succRet['name'],
-		"icon_type" => $succRet['icon_type'],
-		"tab_cfg" => AppDesign::getTabCfgInfo($succRet)
+		"icon_type" => $succRet['icon_type']
 	);
+
+    $ret = AppDesign::getTabCfgInfo($succRet);
+	if(!empty($ret)) {
+		$button_config['tab_cfg'] = $ret;
+	}
 
 	array_push($button_configs, $button_config);
 }
