@@ -1,7 +1,7 @@
 <?php
 /**
 * @file forumupload.php
-* @Brief 
+* @Brief
 * @author youzu
 * @version 1.0.0
 * @date 2015-07-07
@@ -14,43 +14,46 @@ if(!defined('IN_MOBILE_API')) {
 define('APPTYPEID', 100);
 define('CURSCRIPT', 'misc');
 require './source/class/class_core.php';
+require_once './source/function/function_forum.php';
+
 $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init_session = false;
 $discuz->init();
 
+$fid = intval($_GET['fid']);
+loadforum($fid, null);
+
 $precheckStr = null;
 if(!isset($_G['setting']['plugins']['available']) || !in_array('bigapp', $_G['setting']['plugins']['available'])){
 	$precheckStr = '论坛移动端访问已关闭';
-}else if(isset($_G['group']['allowpostimage']) && !$_G['group']['allowpostimage']){
-	$precheckStr = '您所在用户组不允许上传图片';
 }
 if(!is_null($precheckStr)){
 	$variable = array(
-		'code' => 100, 
-		'message' => '__DONT_DICONV_TO_UTF8___' . $precheckStr, 
+		'code' => 100,
+		'message' => '__DONT_DICONV_TO_UTF8___' . $precheckStr,
 		'ret' => array(
-			'aId' => -1, 
-			'relative_url' => '', 
-			'abs_url' => '', 
+			'aId' => -1,
+			'relative_url' => '',
+			'abs_url' => '',
 			'image' => -1,
 		),
 	);
 	bigapp_core::result(bigapp_core::variable($variable));
 }
-$_G['uid'] = intval($_POST['uid']);
 
+$_G['uid'] = intval($_POST['uid']);
 if((empty($_G['uid']) && $_GET['operation'] != 'upload') || $_POST['hash'] != md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])) {
 	$variable = array(
-                'code' => 100,
-                'message' => '__DONT_DICONV_TO_UTF8___' . 'hash校验失败',
-                'ret' => array(
-                        'aId' => -1,
-                        'relative_url' => '',
-                        'abs_url' => '',
-                        'image' => -1,
-                ),
-        );
+        'code' => 100,
+        'message' => '__DONT_DICONV_TO_UTF8___' . 'hash校验失败',
+        'ret' => array(
+            'aId' => -1,
+            'relative_url' => '',
+            'abs_url' => '',
+            'image' => -1,
+        ),
+    );
 	bigapp_core::result(bigapp_core::variable($variable));
 } else {
 	if($_G['uid']) {
@@ -65,7 +68,6 @@ $_FILES['Filedata']['name'] = diconv(urldecode($_FILES['Filedata']['name']), 'UT
 $_FILES['Filedata']['type'] = $_GET['filetype'];
 
 $forumattachextensions = '';
-$fid = intval($_GET['fid']);
 if($fid) {
 	$forum = $fid != $_G['fid'] ? C::t('forum_forum')->fetch_info_by_fid($fid) : $_G['forum'];
 	if($forum['status'] == 3 && $forum['level']) {
@@ -82,9 +84,7 @@ if($fid) {
 	}
 }
 
-
 class forum_upload_bigapp extends forum_upload {
-
 	function uploadmsg($statusid) {
 		global $_G;
 		$errorMap = array(
@@ -100,11 +100,11 @@ class forum_upload_bigapp extends forum_upload {
 			11 => '今日附件总大小超限制',
 			8 => '保存图片失败',
 			9 => '保存附件失败',
-			7 => '文件格式不一致',
+			7 => '文件格式不一致'
 		);
 		$msg = '附件提交失败';
 		if(isset($errorMap[$statusid])){
-			$msg = $errorMap[$statusid];	
+			$msg = $errorMap[$statusid];
 		}
 		if(function_exists('iconv')){
 			$msg = iconv('UTF-8', CHARSET . '//ignore', $msg);
@@ -112,20 +112,17 @@ class forum_upload_bigapp extends forum_upload {
 			$msg = mb_convert_encoding($msg, CHARSET, 'UTF-8');
 		}
 		$variable = array(
-						'code' => $statusid, 
-						'message' => $msg, 
-						'ret' => array(
-									'aId' => $this->aid, 
-									'relative_url' => $this->attach['attachment'], 
-									'abs_url' => ApiUtils::getDzRoot() . $_G['setting']['attachurl'] . 'forum/' . $this->attach['attachment'], 
-									'image' => $this->attach['isimage'] ? -1 : 2,
-								),
-					);
+			'code' => $statusid,
+			'message' => $msg,
+			'ret' => array(
+				'aId' => $this->aid,
+				'relative_url' => $this->attach['attachment'],
+				'abs_url' => ApiUtils::getDzRoot() . $_G['setting']['attachurl'] . 'forum/' . $this->attach['attachment'],
+				'image' => $this->attach['isimage'] ? -1 : 2,
+			),
+		);
 		bigapp_core::result(bigapp_core::variable($variable));
 	}
-
 }
 
 $upload = new forum_upload_bigapp();
-
-?>
